@@ -1,0 +1,34 @@
+{
+  "name": "drupal/websecurity",
+  "description": "Most needed contributed modules and configurations to manage a secure website.",
+  "type": "drupal-module",
+  "homepage": "https://www.drupal.org/project/websecurity",
+  "license": "GPL-2.0-or-later",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Webship",
+      "homepage": "http://webship.org",
+      "role": "Maintainer"
+    }
+  ],
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/websecurity",
+    "source": "http://cgit.drupalcode.org/websecurity"
+  },
+  "repositories": {
+    "drupal": {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    }
+  },
+  "require": {
+    "drupal/core": "~10.0",
+    "drupal/recaptcha_v3": "~2.0",
+    "drupal/flood_control": "~2.0",
+    "drupal/seckit": "~2.0",
+    "drupal/security_review": "~2.0",
+    "drupal/honeypot": "~2.0",
+    "drupal/antibot": "~2.0"
+  }
+}
