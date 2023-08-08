@@ -23,7 +23,7 @@
     }
   },
   "require": {
-    "drupal/core": "~10.0",
+    "drupal/core": "~10.1.0",
     "drupal/recaptcha_v3": "~2.0",
     "drupal/flood_control": "~2.0",
     "drupal/seckit": "~2.0",

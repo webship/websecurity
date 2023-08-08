@@ -1,7 +1,7 @@
 name: Web Security
 type: module
 description: 'Most needed contributed modules and configurations for search engine optimization.'
-core_version_requirement: ~10.0
+core_version_requirement: ~10.1.0
 dependencies:
   - recaptcha_v3:recaptcha_v3
   - flood_control:flood_control
