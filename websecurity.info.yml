@@ -2,11 +2,3 @@ name: Web Security
 description: Most needed contributed modules and configurations to manage a secure website.
 type: module
 core_version_requirement: ~11.3.0
-dependencies:
-  - recaptcha_v3:recaptcha_v3
-  - flood_control:flood_control
-  - honeypot:honeypot
-  - antibot:antibot
-  - seckit:seckit
-  - klaro:klaro
-

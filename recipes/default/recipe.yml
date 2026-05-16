@@ -1,0 +1,96 @@
+name: Web Security - Default
+description: A recipe to manage default installed modules, configs and permissions.
+type: install
+install:
+  - recaptcha_v3
+  - flood_control
+  - honeypot
+  - antibot
+  - seckit
+  - security_review
+  - klaro
+config:
+  strict: false
+  import:
+    recaptcha_v3: '*'
+    flood_control: '*'
+    antibot: '*'
+  actions:
+    honeypot.settings:
+      simpleConfigUpdate:
+        unprotected_forms:
+          - search_form
+          - search_block_form
+          - views_exposed_form
+          - honeypot_settings_form
+        protect_all_forms: false
+        log: true
+        element_name: url
+        time_limit: 2
+        expire: 300
+        form_settings:
+          user_register_form: true
+          user_login_form: true
+          user_pass: true
+          node_webpage_form: false
+          node_webblog_form: false
+          node_webform_form: true
+          comment_comment_form: true
+          webforms: true
+          webform_submission_contact_add_form: true
+          webform_submission_newsletter_subscribe_add_form: true
+    seckit.settings:
+      simpleConfigUpdate:
+        seckit_xss:
+          csp:
+            checkbox: false
+            report-only: false
+            default-src: ""
+            script-src: ""
+            object-src: ""
+            img-src: ""
+            media-src: ""
+            frame-src: ""
+            child-src: ""
+            font-src: ""
+            connect-src: ""
+            report-uri: report-csp-violation
+            policy-uri: ""
+            style-src: ""
+          x_xss:
+            seckit_x_xss_option_disable: Disabled
+            seckit_x_xss_option_0: "0"
+            seckit_x_xss_option_1: 1;
+            seckit_x_xss_option_1_block: "1; mode=block"
+            select: 2
+          x_content_type:
+            checkbox: true
+        seckit_csrf:
+          origin: false
+          origin_whitelist: ""
+        seckit_clickjacking:
+          js_css_noscript: false
+          noscript_message: "Sorry, you need to enable JavaScript to visit this website."
+          x_frame: "1"
+          x_frame_allow_from: ""
+        seckit_ssl:
+          hsts: false
+          hsts_subdomains: false
+          hsts_max_age: 1000
+          hsts_preload: false
+        seckit_various:
+          from_origin: false
+          from_origin_destination: same
+          disable_autocomplete: true
+    user.flood:
+      simpleConfigUpdate:
+        uid_only: false
+        ip_limit: 10
+        ip_window: 1800
+        user_limit: 8
+        user_window: 1800
+    security_review.settings:
+      simpleConfigUpdate:
+        untrusted_roles:
+          - anonymous
+        log: true
