@@ -27,6 +27,14 @@ input:
     default:
       source: config
       config: ['system.site', 'uuid']
+  default_langcode:
+    data_type: string
+    description: 'The default language of the site. Saved with the settings that hold translatable text.'
+    constraints:
+      NotBlank: []
+    default:
+      source: config
+      config: ['system.site', 'default_langcode']
 config:
   # Respect site owners' own tweaks when the active config differs.
   strict: false
@@ -37,6 +45,10 @@ config:
     captcha:
       - captcha.captcha_point.user_register_form
   actions:
+    # The settings hold translatable text, so they need a language code.
+    recaptcha_v3.settings:
+      simpleConfigUpdate:
+        langcode: ${default_langcode}
     captcha.settings:
       simpleConfigUpdate:
         default_challenge: friendlycaptcha/friendlycaptcha
@@ -101,13 +113,7 @@ config:
             policy-uri: ""
             style-src: ""
           x_xss:
-            seckit_x_xss_option_disable: Disabled
-            seckit_x_xss_option_0: "0"
-            seckit_x_xss_option_1: 1;
-            seckit_x_xss_option_1_block: "1; mode=block"
             select: 2
-          x_content_type:
-            checkbox: true
         seckit_csrf:
           origin: false
           origin_whitelist: ""
