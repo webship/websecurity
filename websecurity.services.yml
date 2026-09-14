@@ -1,0 +1,5 @@
+services:
+  _defaults:
+    autoconfigure: true
+  Drupal\websecurity\EventSubscriber\FriendlyCaptchaKeysSubscriber:
+    autowire: true

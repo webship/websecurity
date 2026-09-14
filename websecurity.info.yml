@@ -2,3 +2,5 @@ name: Web Security
 description: Most needed contributed modules and configurations to manage a secure website.
 type: module
 core_version_requirement: ^11.4 || ^12
+dependencies:
+  - friendlycaptcha:friendlycaptcha

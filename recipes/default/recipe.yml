@@ -18,23 +18,8 @@ install:
   - eca_misc
   - eca_user
   - login_emailusername
-input:
-  site_uuid:
-    data_type: string
-    description: 'The site UUID. Used internally to generate an API key for CAPTCHAs.'
-    constraints:
-      NotBlank: []
-    default:
-      source: config
-      config: ['system.site', 'uuid']
-  default_langcode:
-    data_type: string
-    description: 'The default language of the site. Saved with the settings that hold translatable text.'
-    constraints:
-      NotBlank: []
-    default:
-      source: config
-      config: ['system.site', 'default_langcode']
+  # Web Security saves random Friendly Captcha keys once the recipe is applied.
+  - websecurity
 config:
   # Respect site owners' own tweaks when the active config differs.
   strict: false
@@ -45,10 +30,12 @@ config:
     captcha:
       - captcha.captcha_point.user_register_form
   actions:
-    # The settings hold translatable text, so they need a language code.
+    # The settings hold translatable text in English, so they need a language
+    # code. A fixed value: recipe inputs are not collected when the recipe is
+    # applied from an installer batch.
     recaptcha_v3.settings:
       simpleConfigUpdate:
-        langcode: ${default_langcode}
+        langcode: en
     captcha.settings:
       simpleConfigUpdate:
         default_challenge: friendlycaptcha/friendlycaptcha
@@ -57,10 +44,9 @@ config:
       setStatus: true
     friendlycaptcha.settings:
       simpleConfigUpdate:
-        # The keys are random; the local API endpoint does not need them, but
-        # the settings form requires a value.
-        site_key: ${site_uuid}
-        api_key: ${site_uuid}
+        # The site key and API key are random values saved by the Web Security
+        # module: the local API endpoint signs its puzzles with the site key,
+        # so each site needs its own.
         api_endpoint: local
         enable_validation_logging: false
     system.site:
