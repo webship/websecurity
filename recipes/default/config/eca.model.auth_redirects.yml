@@ -1,0 +1,58 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - eca.eca.auth_redirects
+id: auth_redirects
+label: 'Authentication redirects'
+tags:
+  - untagged
+documentation: ''
+filename: ''
+modeldata: |
+  <?xml version="1.0" encoding="UTF-8"?>
+  <bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:qa="http://some-company/schema/bpmn/qa" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+    <bpmn2:process id="auth_redirects" name="Authentication redirects" isExecutable="true" camunda:versionTag="0.0.0">
+      <bpmn2:startEvent id="Event_user_logout" name="User logout" camunda:modelerTemplate="org.drupal.event.user:logout">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="user:logout" />
+          </camunda:properties>
+        </bpmn2:extensionElements>
+        <bpmn2:outgoing>Flow_0zakiow</bpmn2:outgoing>
+      </bpmn2:startEvent>
+      <bpmn2:task id="Action_redirect_to_login" name="Back to login after logout" camunda:modelerTemplate="org.drupal.action.action_goto_action">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="action_goto_action" />
+          </camunda:properties>
+          <camunda:field name="url">
+            <camunda:string>/user/login</camunda:string>
+          </camunda:field>
+          <camunda:field name="replace_tokens">
+            <camunda:string>no</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_0zakiow</bpmn2:incoming>
+      </bpmn2:task>
+      <bpmn2:sequenceFlow id="Flow_0zakiow" sourceRef="Event_user_logout" targetRef="Action_redirect_to_login" />
+    </bpmn2:process>
+    <bpmndi:BPMNDiagram id="sid-c91c4496-b845-48e6-bc3f-9a62c44aad7f">
+      <bpmndi:BPMNPlane id="sid-6318b20e-1861-433f-b828-5a5536b79a9b" bpmnElement="auth_redirects">
+        <bpmndi:BPMNShape id="Event_0k88gh5_di" bpmnElement="Event_user_logout">
+          <dc:Bounds x="212" y="412" width="36" height="36" />
+          <bpmndi:BPMNLabel>
+            <dc:Bounds x="203" y="455" width="57" height="14" />
+          </bpmndi:BPMNLabel>
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_0abtgwf_di" bpmnElement="Action_redirect_to_login">
+          <dc:Bounds x="300" y="390" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNEdge id="Flow_0zakiow_di" bpmnElement="Flow_0zakiow">
+          <di:waypoint x="248" y="430" />
+          <di:waypoint x="300" y="430" />
+        </bpmndi:BPMNEdge>
+      </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+  </bpmn2:definitions>

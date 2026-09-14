@@ -6,16 +6,59 @@ install:
   - flood_control
   - honeypot
   - antibot
+  - captcha
+  - friendlycaptcha
   - seckit
   - security_review
   - klaro
+  - token
+  - bpmn_io
+  - eca_base
+  - eca_form
+  - eca_misc
+  - eca_user
+  - login_emailusername
+input:
+  site_uuid:
+    data_type: string
+    description: 'The site UUID. Used internally to generate an API key for CAPTCHAs.'
+    constraints:
+      NotBlank: []
+    default:
+      source: config
+      config: ['system.site', 'uuid']
 config:
+  # Respect site owners' own tweaks when the active config differs.
   strict: false
   import:
     recaptcha_v3: '*'
     flood_control: '*'
     antibot: '*'
+    captcha:
+      - captcha.captcha_point.user_register_form
   actions:
+    captcha.settings:
+      simpleConfigUpdate:
+        default_challenge: friendlycaptcha/friendlycaptcha
+    # Show the default challenge on the user registration form.
+    captcha.captcha_point.user_register_form:
+      setStatus: true
+    friendlycaptcha.settings:
+      simpleConfigUpdate:
+        # The keys are random; the local API endpoint does not need them, but
+        # the settings form requires a value.
+        site_key: ${site_uuid}
+        api_key: ${site_uuid}
+        api_endpoint: local
+        enable_validation_logging: false
+    system.site:
+      simpleConfigUpdate:
+        page.403: '/user/login'
+    user.role.authenticated:
+      grantPermissions:
+        - 'bypass honeypot protection'
+        - 'skip antibot'
+        - 'skip CAPTCHA'
     honeypot.settings:
       simpleConfigUpdate:
         unprotected_forms:

@@ -16,3 +16,7 @@ Feature: Web Security bundled modules are enabled
      And I should see "reCAPTCHA v3"
      And I should see "Security Kit"
      And I should see "Security Review"
+     And I should see "CAPTCHA"
+     And I should see "Friendly Captcha"
+     And I should see "Login with email or username"
+     And I should see "ECA User"

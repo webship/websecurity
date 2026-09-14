@@ -1,0 +1,425 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - eca.eca.user_register
+id: user_register
+label: 'User registration'
+tags:
+  - untagged
+documentation: ''
+filename: ''
+modeldata: |
+  <?xml version="1.0" encoding="UTF-8"?>
+  <bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:qa="http://some-company/schema/bpmn/qa" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+    <bpmn2:process id="user_register" name="User registration" isExecutable="true" camunda:versionTag="0.0.0">
+      <bpmn2:startEvent id="Event_build_user_reg_form" name="Build user register form" camunda:modelerTemplate="org.drupal.event.form:form_build">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="form:form_build" />
+          </camunda:properties>
+          <camunda:field name="form_id">
+            <camunda:string>user-register-form</camunda:string>
+          </camunda:field>
+          <camunda:field name="entity_type_id">
+            <camunda:string></camunda:string>
+          </camunda:field>
+          <camunda:field name="bundle">
+            <camunda:string></camunda:string>
+          </camunda:field>
+          <camunda:field name="operation">
+            <camunda:string></camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:outgoing>Flow_11o0sdv</bpmn2:outgoing>
+      </bpmn2:startEvent>
+      <bpmn2:task id="Activity_password_field_not_required" name="Set password as not required" camunda:modelerTemplate="org.drupal.action.eca_form_field_require">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_form_field_require" />
+          </camunda:properties>
+          <camunda:field name="field_name">
+            <camunda:string>pass</camunda:string>
+          </camunda:field>
+          <camunda:field name="flag">
+            <camunda:string>no</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_06up9ti</bpmn2:incoming>
+        <bpmn2:outgoing>Flow_0zlktex</bpmn2:outgoing>
+      </bpmn2:task>
+      <bpmn2:task id="Activity_get_random_string" name="Get random string" camunda:modelerTemplate="org.drupal.action.eca_token_set_random_value">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_token_set_random_value" />
+          </camunda:properties>
+          <camunda:field name="token_name">
+            <camunda:string>password</camunda:string>
+          </camunda:field>
+          <camunda:field name="mode">
+            <camunda:string>password</camunda:string>
+          </camunda:field>
+          <camunda:field name="length">
+            <camunda:string>32</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_notify_on</bpmn2:incoming>
+        <bpmn2:outgoing>Flow_0hnx9gz</bpmn2:outgoing>
+      </bpmn2:task>
+      <bpmn2:task id="Activity_set_password" name="Set password" camunda:modelerTemplate="org.drupal.action.eca_form_field_set_value">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_form_field_set_value" />
+          </camunda:properties>
+          <camunda:field name="field_name">
+            <camunda:string>pass</camunda:string>
+          </camunda:field>
+          <camunda:field name="field_value">
+            <camunda:string>[password]</camunda:string>
+          </camunda:field>
+          <camunda:field name="use_yaml">
+            <camunda:string>no</camunda:string>
+          </camunda:field>
+          <camunda:field name="strip_tags">
+            <camunda:string>no</camunda:string>
+          </camunda:field>
+          <camunda:field name="trim">
+            <camunda:string>no</camunda:string>
+          </camunda:field>
+          <camunda:field name="xss_filter">
+            <camunda:string>no</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_0hnx9gz</bpmn2:incoming>
+        <bpmn2:outgoing>Flow_1j0dzck</bpmn2:outgoing>
+      </bpmn2:task>
+      <bpmn2:startEvent id="Event_validate_user_reg_form" name="Validate user register form" camunda:modelerTemplate="org.drupal.event.form:form_validate">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="form:form_validate" />
+          </camunda:properties>
+          <camunda:field name="form_id">
+            <camunda:string>user-register-form</camunda:string>
+          </camunda:field>
+          <camunda:field name="entity_type_id">
+            <camunda:string></camunda:string>
+          </camunda:field>
+          <camunda:field name="bundle">
+            <camunda:string></camunda:string>
+          </camunda:field>
+          <camunda:field name="operation">
+            <camunda:string></camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:outgoing>Flow_notify_on</bpmn2:outgoing>
+      </bpmn2:startEvent>
+      <bpmn2:task id="Activity_set_weight_mail" name="Set weight for mail" camunda:modelerTemplate="org.drupal.action.eca_form_field_set_weight">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_form_field_set_weight" />
+          </camunda:properties>
+          <camunda:field name="field_name">
+            <camunda:string>mail</camunda:string>
+          </camunda:field>
+          <camunda:field name="weight">
+            <camunda:string>-10</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_11o0sdv</bpmn2:incoming>
+        <bpmn2:outgoing>Flow_15exqlf</bpmn2:outgoing>
+      </bpmn2:task>
+      <bpmn2:task id="Activity_set_weight_name" name="Set weight for name" camunda:modelerTemplate="org.drupal.action.eca_form_field_set_weight">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_form_field_set_weight" />
+          </camunda:properties>
+          <camunda:field name="field_name">
+            <camunda:string>name</camunda:string>
+          </camunda:field>
+          <camunda:field name="weight">
+            <camunda:string>-9</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_15exqlf</bpmn2:incoming>
+        <bpmn2:outgoing>Flow_0h7yuqs</bpmn2:outgoing>
+      </bpmn2:task>
+      <bpmn2:sequenceFlow id="Flow_15exqlf" sourceRef="Activity_set_weight_mail" targetRef="Activity_set_weight_name" />
+      <bpmn2:task id="Activity_set_weight_notify" name="Set weight for notify" camunda:modelerTemplate="org.drupal.action.eca_form_field_set_weight">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_form_field_set_weight" />
+          </camunda:properties>
+          <camunda:field name="field_name">
+            <camunda:string>notify</camunda:string>
+          </camunda:field>
+          <camunda:field name="weight">
+            <camunda:string>-8</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_0h7yuqs</bpmn2:incoming>
+        <bpmn2:outgoing>Flow_0hdsmjk</bpmn2:outgoing>
+        <bpmn2:outgoing>Flow_10m8xkv</bpmn2:outgoing>
+      </bpmn2:task>
+      <bpmn2:sequenceFlow id="Flow_0h7yuqs" sourceRef="Activity_set_weight_name" targetRef="Activity_set_weight_notify" />
+      <bpmn2:task id="Activity_set_weight_password" name="Set weight for password" camunda:modelerTemplate="org.drupal.action.eca_form_field_set_weight">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_form_field_set_weight" />
+          </camunda:properties>
+          <camunda:field name="field_name">
+            <camunda:string>pass</camunda:string>
+          </camunda:field>
+          <camunda:field name="weight">
+            <camunda:string>-7</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_0hdsmjk</bpmn2:incoming>
+        <bpmn2:outgoing>Flow_06up9ti</bpmn2:outgoing>
+        <bpmn2:outgoing>Flow_1lbfwr3</bpmn2:outgoing>
+      </bpmn2:task>
+      <bpmn2:sequenceFlow id="Flow_0hdsmjk" sourceRef="Activity_set_weight_notify" targetRef="Activity_set_weight_password" />
+      <bpmn2:sequenceFlow id="Flow_06up9ti" sourceRef="Activity_set_weight_password" targetRef="Activity_password_field_not_required" />
+      <bpmn2:sequenceFlow id="Flow_11o0sdv" sourceRef="Event_build_user_reg_form" targetRef="Activity_set_weight_mail" />
+      <bpmn2:sequenceFlow id="Flow_10m8xkv" sourceRef="Activity_set_weight_notify" targetRef="Activity_enable_notify" />
+      <bpmn2:task id="Activity_enable_notify" name="Enable notify by default" camunda:modelerTemplate="org.drupal.action.eca_form_field_default_value">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_form_field_default_value" />
+          </camunda:properties>
+          <camunda:field name="field_name">
+            <camunda:string>notify</camunda:string>
+          </camunda:field>
+          <camunda:field name="value">
+            <camunda:string>1</camunda:string>
+          </camunda:field>
+          <camunda:field name="strip_tags">
+            <camunda:string>yes</camunda:string>
+          </camunda:field>
+          <camunda:field name="trim">
+            <camunda:string>yes</camunda:string>
+          </camunda:field>
+          <camunda:field name="xss_filter">
+            <camunda:string>yes</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_10m8xkv</bpmn2:incoming>
+      </bpmn2:task>
+      <bpmn2:task id="Activity_invisible_state_status" name="Add invisible state for status" camunda:modelerTemplate="org.drupal.action.eca_form_field_add_state">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_form_field_add_state" />
+          </camunda:properties>
+          <camunda:field name="field_name">
+            <camunda:string>status</camunda:string>
+          </camunda:field>
+          <camunda:field name="selector">
+            <camunda:string>:input[name="notify"]</camunda:string>
+          </camunda:field>
+          <camunda:field name="state">
+            <camunda:string>invisible</camunda:string>
+          </camunda:field>
+          <camunda:field name="condition">
+            <camunda:string>checked</camunda:string>
+          </camunda:field>
+          <camunda:field name="value">
+            <camunda:string></camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_1lbfwr3</bpmn2:incoming>
+      </bpmn2:task>
+      <bpmn2:sequenceFlow id="Flow_1lbfwr3" sourceRef="Activity_set_weight_password" targetRef="Activity_invisible_state_status" />
+      <bpmn2:task id="Activity_invisible_state_password" name="Add invisible state for password" camunda:modelerTemplate="org.drupal.action.eca_form_field_add_state">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_form_field_add_state" />
+          </camunda:properties>
+          <camunda:field name="field_name">
+            <camunda:string>pass</camunda:string>
+          </camunda:field>
+          <camunda:field name="selector">
+            <camunda:string>:input[name="notify"]</camunda:string>
+          </camunda:field>
+          <camunda:field name="state">
+            <camunda:string>invisible</camunda:string>
+          </camunda:field>
+          <camunda:field name="condition">
+            <camunda:string>checked</camunda:string>
+          </camunda:field>
+          <camunda:field name="value">
+            <camunda:string></camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_0zlktex</bpmn2:incoming>
+      </bpmn2:task>
+      <bpmn2:sequenceFlow id="Flow_0zlktex" sourceRef="Activity_password_field_not_required" targetRef="Activity_invisible_state_password" />
+      <bpmn2:sequenceFlow id="Flow_notify_on" name="notify?" camunda:modelerTemplate="org.drupal.condition.eca_form_field_value" sourceRef="Event_validate_user_reg_form" targetRef="Activity_get_random_string">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_form_field_value" />
+          </camunda:properties>
+          <camunda:field name="operator">
+            <camunda:string>equal</camunda:string>
+          </camunda:field>
+          <camunda:field name="field_value">
+            <camunda:string>1</camunda:string>
+          </camunda:field>
+          <camunda:field name="type">
+            <camunda:string>numeric</camunda:string>
+          </camunda:field>
+          <camunda:field name="field_name">
+            <camunda:string>notify</camunda:string>
+          </camunda:field>
+          <camunda:field name="case">
+            <camunda:string>no</camunda:string>
+          </camunda:field>
+          <camunda:field name="strip_tags">
+            <camunda:string>yes</camunda:string>
+          </camunda:field>
+          <camunda:field name="trim">
+            <camunda:string>yes</camunda:string>
+          </camunda:field>
+          <camunda:field name="xss_filter">
+            <camunda:string>yes</camunda:string>
+          </camunda:field>
+          <camunda:field name="negate">
+            <camunda:string>no</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+      </bpmn2:sequenceFlow>
+      <bpmn2:sequenceFlow id="Flow_0hnx9gz" sourceRef="Activity_get_random_string" targetRef="Activity_set_password" />
+      <bpmn2:task id="Activity_set_status" name="Set status" camunda:modelerTemplate="org.drupal.action.eca_form_field_set_value">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_form_field_set_value" />
+          </camunda:properties>
+          <camunda:field name="field_name">
+            <camunda:string>status</camunda:string>
+          </camunda:field>
+          <camunda:field name="field_value">
+            <camunda:string>1</camunda:string>
+          </camunda:field>
+          <camunda:field name="use_yaml">
+            <camunda:string>no</camunda:string>
+          </camunda:field>
+          <camunda:field name="strip_tags">
+            <camunda:string>yes</camunda:string>
+          </camunda:field>
+          <camunda:field name="trim">
+            <camunda:string>yes</camunda:string>
+          </camunda:field>
+          <camunda:field name="xss_filter">
+            <camunda:string>yes</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_1j0dzck</bpmn2:incoming>
+      </bpmn2:task>
+      <bpmn2:sequenceFlow id="Flow_1j0dzck" sourceRef="Activity_set_password" targetRef="Activity_set_status" />
+    </bpmn2:process>
+    <bpmndi:BPMNDiagram id="sid-a8eb0b86-a2df-41a8-a587-447d1412f7af">
+      <bpmndi:BPMNPlane id="sid-04236ce1-77b9-4afe-96b0-0f849f32f8c0" bpmnElement="user_register">
+        <bpmndi:BPMNShape id="Event_0sao8cz_di" bpmnElement="Event_build_user_reg_form">
+          <dc:Bounds x="552" y="272" width="36" height="36" />
+          <bpmndi:BPMNLabel>
+            <dc:Bounds x="540" y="315" width="62" height="27" />
+          </bpmndi:BPMNLabel>
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_1s3bv3y_di" bpmnElement="Activity_password_field_not_required">
+          <dc:Bounds x="1160" y="350" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_1sjxc39_di" bpmnElement="Activity_set_weight_mail">
+          <dc:Bounds x="680" y="250" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_0ay482e_di" bpmnElement="Activity_set_weight_name">
+          <dc:Bounds x="840" y="250" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_1nvp61x_di" bpmnElement="Activity_set_weight_notify">
+          <dc:Bounds x="1000" y="250" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_1mym7hi_di" bpmnElement="Activity_set_weight_password">
+          <dc:Bounds x="1160" y="250" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_17r27q0_di" bpmnElement="Activity_invisible_state_status">
+          <dc:Bounds x="1310" y="250" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_0zweeww_di" bpmnElement="Activity_invisible_state_password">
+          <dc:Bounds x="1310" y="350" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_0vrozi5_di" bpmnElement="Activity_enable_notify">
+          <dc:Bounds x="1000" y="350" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_0vk3zws_di" bpmnElement="Activity_get_random_string">
+          <dc:Bounds x="680" y="470" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_15o78yd_di" bpmnElement="Activity_set_password">
+          <dc:Bounds x="840" y="470" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Event_1hyon6h_di" bpmnElement="Event_validate_user_reg_form">
+          <dc:Bounds x="552" y="492" width="36" height="36" />
+          <bpmndi:BPMNLabel>
+            <dc:Bounds x="538" y="535" width="67" height="27" />
+          </bpmndi:BPMNLabel>
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_12vnaim_di" bpmnElement="Activity_set_status">
+          <dc:Bounds x="1000" y="470" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNEdge id="Flow_15exqlf_di" bpmnElement="Flow_15exqlf">
+          <di:waypoint x="780" y="290" />
+          <di:waypoint x="840" y="290" />
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="Flow_0h7yuqs_di" bpmnElement="Flow_0h7yuqs">
+          <di:waypoint x="940" y="290" />
+          <di:waypoint x="1000" y="290" />
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="Flow_0hdsmjk_di" bpmnElement="Flow_0hdsmjk">
+          <di:waypoint x="1100" y="290" />
+          <di:waypoint x="1160" y="290" />
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="Flow_06up9ti_di" bpmnElement="Flow_06up9ti">
+          <di:waypoint x="1210" y="330" />
+          <di:waypoint x="1210" y="350" />
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="Flow_11o0sdv_di" bpmnElement="Flow_11o0sdv">
+          <di:waypoint x="588" y="290" />
+          <di:waypoint x="680" y="290" />
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="Flow_10m8xkv_di" bpmnElement="Flow_10m8xkv">
+          <di:waypoint x="1050" y="330" />
+          <di:waypoint x="1050" y="350" />
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="Flow_1lbfwr3_di" bpmnElement="Flow_1lbfwr3">
+          <di:waypoint x="1260" y="290" />
+          <di:waypoint x="1310" y="290" />
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="Flow_0zlktex_di" bpmnElement="Flow_0zlktex">
+          <di:waypoint x="1260" y="390" />
+          <di:waypoint x="1310" y="390" />
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="Flow_1hmox9e_di" bpmnElement="Flow_notify_on">
+          <di:waypoint x="588" y="510" />
+          <di:waypoint x="680" y="510" />
+          <bpmndi:BPMNLabel>
+            <dc:Bounds x="633" y="492" width="33" height="14" />
+          </bpmndi:BPMNLabel>
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="Flow_0hnx9gz_di" bpmnElement="Flow_0hnx9gz">
+          <di:waypoint x="780" y="510" />
+          <di:waypoint x="840" y="510" />
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="Flow_1j0dzck_di" bpmnElement="Flow_1j0dzck">
+          <di:waypoint x="940" y="510" />
+          <di:waypoint x="1000" y="510" />
+        </bpmndi:BPMNEdge>
+      </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+  </bpmn2:definitions>

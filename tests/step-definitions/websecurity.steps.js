@@ -43,6 +43,18 @@ async function satisfyAntibotAndHoneypot(page) {
   await page.waitForTimeout(3000);
 }
 
+// The login name field accepts a username or an email address, so the form
+// is filled by field name rather than by its label.
+async function submitLoginForm(world, name, password) {
+  await gotoUrl(world.page, `${world.parameters.launchUrl}/user/login`);
+  await smartSettle(world.page);
+  await fillField(world.page, 'name', name);
+  await fillField(world.page, 'pass', password);
+  await satisfyAntibotAndHoneypot(world.page);
+  await world.page.getByRole('button', { name: 'Log in' }).click();
+  await smartSettle(world.page);
+}
+
 /**
  * Log in as a named test user defined in cucumber.js worldParameters.users.
  *
@@ -62,13 +74,22 @@ Given(/^I am a logged in user with( the)*( username)* "([^"]*)?"( user)?$/, asyn
   if (!username || !password) {
     throw friendly(`User "${key}" is missing username or password in worldParameters.users`);
   }
-  await gotoUrl(this.page, `${this.parameters.launchUrl}/user/login`);
-  await smartSettle(this.page);
-  await fillField(this.page, 'Username', username);
-  await fillField(this.page, 'Password', password);
-  await satisfyAntibotAndHoneypot(this.page);
-  await this.page.getByRole('button', { name: 'Log in' }).click();
-  await smartSettle(this.page);
+  await submitLoginForm(this, username, password);
+});
+
+/**
+ * Log in with the email address of a named test user.
+ *
+ * The recipe lets users log in with an email address or a username.
+ *
+ * Example #1: Given I log in with the email address of the "Webmaster" user
+ */
+Given(/^I log in with the email address of the "([^"]*)" user$/, async function (key) {
+  const users = this.parameters.users || {};
+  if (!(key in users) || !users[key].email || !users[key].password) {
+    throw friendly(`User "${key}" needs an email and a password in cucumber.js worldParameters.users`);
+  }
+  await submitLoginForm(this, users[key].email, users[key].password);
 });
 
 /**
@@ -88,6 +109,10 @@ Given(/^(?:I |we )?add( the)? testing users$/, async function (theCase) {
     await smartSettle(this.page);
     await fillField(this.page, 'name', info.username);
     await fillField(this.page, 'mail', info.email);
+    // The registration model ticks "Notify user" and generates a password;
+    // untick it so the account keeps the password from worldParameters.
+    const notify = this.page.locator('input[name="notify"]');
+    if (await notify.count() > 0) await notify.uncheck();
     await fillField(this.page, 'pass[pass1]', info.password);
     await fillField(this.page, 'pass[pass2]', info.password);
     for (const role of info.roles || []) {
@@ -106,13 +131,7 @@ Given(/^(?:I |we )?add( the)? testing users$/, async function (theCase) {
  * Example #1: When I attempt to log in as "badguy" with password "wrong"
  */
 When(/^(?:I |we )?attempt to log in as "([^"]+)" with password "([^"]+)"$/, async function (username, password) {
-  await gotoUrl(this.page, `${this.parameters.launchUrl}/user/login`);
-  await smartSettle(this.page);
-  await fillField(this.page, 'Username', username);
-  await fillField(this.page, 'Password', password);
-  await satisfyAntibotAndHoneypot(this.page);
-  await this.page.getByRole('button', { name: 'Log in' }).click();
-  await smartSettle(this.page);
+  await submitLoginForm(this, username, password);
 });
 
 // ---------------------------------------------------------------------------
