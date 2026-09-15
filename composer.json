@@ -24,7 +24,6 @@
   },
   "require": {
     "drupal/core": "^11.4 || ^12",
-    "drupal/webpatches": "11.0.x-dev",
     "drupal/recaptcha_v3": "~2.0.0",
     "drupal/flood_control": "~3.0",
     "drupal/seckit": "~2.0.0",
