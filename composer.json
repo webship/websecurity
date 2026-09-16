@@ -34,8 +34,8 @@
     "drupal/captcha": "^2.0.7",
     "drupal/friendlycaptcha": "^1.1",
     "drupal/friendly_captcha_challenge": "^0.9",
-    "drupal/bpmn_io": "^2.0.2",
-    "drupal/eca": "^2.1.0-beta1",
+    "drupal/bpmn_io": "^2.0.2 || ^3",
+    "drupal/eca": "^2.1.0-beta1 || ^3",
     "drupal/login_emailusername": "^3",
     "drupal/token": "^1"
   }
