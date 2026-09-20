@@ -18,8 +18,8 @@ modeldata: |
           <camunda:properties>
             <camunda:property name="pluginid" value="form:form_build" />
           </camunda:properties>
-          <camunda:field name="form_id">
-            <camunda:string>user-register-form</camunda:string>
+          <camunda:field name="form_ids">
+            <camunda:string>user_register_form</camunda:string>
           </camunda:field>
           <camunda:field name="entity_type_id">
             <camunda:string></camunda:string>
@@ -98,8 +98,8 @@ modeldata: |
           <camunda:properties>
             <camunda:property name="pluginid" value="form:form_validate" />
           </camunda:properties>
-          <camunda:field name="form_id">
-            <camunda:string>user-register-form</camunda:string>
+          <camunda:field name="form_ids">
+            <camunda:string>user_register_form</camunda:string>
           </camunda:field>
           <camunda:field name="entity_type_id">
             <camunda:string></camunda:string>
