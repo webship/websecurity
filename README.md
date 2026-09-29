@@ -12,5 +12,8 @@ The `recipes/default` recipe, applied when the module is installed, sets up:
 - **Authentication:** log in with an email address or a username, an access
   denied page that shows the login form, a return to the login page after
   logging out, and a simpler registration form (ECA models).
+- **Accessible authentication:** browsers and password managers can fill the
+  login and registration forms, and the fallback challenge of reCAPTCHA v3 is
+  Friendly Captcha, which the browser solves. No form asks a math question.
 - **Hardening:** Security Kit headers, Flood control, login flood limits,
   Security Review checks and the Klaro consent manager.

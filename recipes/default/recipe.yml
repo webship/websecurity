@@ -36,6 +36,9 @@ config:
     recaptcha_v3.settings:
       simpleConfigUpdate:
         langcode: en
+        # The fallback challenge is Friendly Captcha: the browser solves it,
+        # so nobody has to work out a math question or read an image.
+        default_challenge: friendlycaptcha/friendlycaptcha
     captcha.settings:
       simpleConfigUpdate:
         default_challenge: friendlycaptcha/friendlycaptcha
@@ -116,7 +119,8 @@ config:
         seckit_various:
           from_origin: false
           from_origin_destination: same
-          disable_autocomplete: true
+          # Let browsers and password managers fill the sign-in forms.
+          disable_autocomplete: false
     user.flood:
       simpleConfigUpdate:
         uid_only: false
