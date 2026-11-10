@@ -56,28 +56,6 @@ async function submitLoginForm(world, name, password) {
 }
 
 /**
- * Log in as a named test user defined in cucumber.js worldParameters.users.
- *
- * The Webmaster row is the site-install super-admin. Every other row is
- * provisioned by `Given I add testing users` (see below).
- *
- * Example #1: Given I am a logged in user with the "Webmaster" user
- * Example #2: Given I am a logged in user with the "Content editor" user
- * Example #3: Given I am a logged in user with the "Authenticated user" user
- */
-Given(/^I am a logged in user with( the)*( username)* "([^"]*)?"( user)?$/, async function (theCase, usernameCase, key, userCase) {
-  const users = this.parameters.users || {};
-  if (!(key in users)) {
-    throw friendly(`No user named "${key}" in cucumber.js worldParameters.users`);
-  }
-  const { username, password } = users[key];
-  if (!username || !password) {
-    throw friendly(`User "${key}" is missing username or password in worldParameters.users`);
-  }
-  await submitLoginForm(this, username, password);
-});
-
-/**
  * Log in with the email address of a named test user.
  *
  * The recipe lets users log in with an email address or a username.
@@ -90,39 +68,6 @@ Given(/^I log in with the email address of the "([^"]*)" user$/, async function 
     throw friendly(`User "${key}" needs an email and a password in cucumber.js worldParameters.users`);
   }
   await submitLoginForm(this, users[key].email, users[key].password);
-});
-
-/**
- * Provision every non-admin user from cucumber.js worldParameters.users.
- *
- * Example #1: Given I add testing users
- * Example #2: And I add the testing users
- */
-Given(/^(?:I |we )?add( the)? testing users$/, async function (theCase) {
-  const users = this.parameters.users || {};
-  for (const [key, info] of Object.entries(users)) {
-    if (info.isAdmin) continue;
-    if (!info.username || !info.email || !info.password) {
-      throw friendly(`User "${key}" is missing username/email/password in worldParameters.users`);
-    }
-    await gotoUrl(this.page, `${this.parameters.launchUrl}/admin/people/create`);
-    await smartSettle(this.page);
-    await fillField(this.page, 'name', info.username);
-    await fillField(this.page, 'mail', info.email);
-    // The registration model ticks "Notify user" and generates a password;
-    // untick it so the account keeps the password from worldParameters.
-    const notify = this.page.locator('input[name="notify"]');
-    if (await notify.count() > 0) await notify.uncheck();
-    await fillField(this.page, 'pass[pass1]', info.password);
-    await fillField(this.page, 'pass[pass2]', info.password);
-    for (const role of info.roles || []) {
-      const cb = this.page.locator(`input[name="roles[${role}]"]`);
-      if (await cb.count() > 0) await cb.check();
-    }
-    await satisfyAntibotAndHoneypot(this.page);
-    await this.page.getByRole('button', { name: 'Create new account' }).click();
-    await smartSettle(this.page);
-  }
 });
 
 /**

@@ -4,6 +4,7 @@ module.exports = {
     requireModule: ['tsx/cjs'],
     require: [
       'node_modules/webship-js/tests/step-definitions/**/*.js',
+      'node_modules/@webship-js/drupal-core-steps/tests/step-definitions/**/*.js', // @webship-js/drupal-core-steps: login by handle, the testing users, named pages, messages, listings, the editor, the media library, access control, site structure.
       'tests/step-definitions/**/*.js',
     ],
     paths: ['tests/features/**/*.feature'],
@@ -13,6 +14,8 @@ module.exports = {
     ],
     worldParameters: {
       launchUrl: process.env.LAUNCH_URL || 'http://localhost',
+      // Honeypot protects the login form: the login by handle waits this long before it submits.
+      loginWait: parseInt(process.env.DRUPAL_LOGIN_WAIT || '3000', 10),
       // Test users for each Drupal Standard profile role.
       //
       // Webmaster is the site-install super-admin (created by `drush
