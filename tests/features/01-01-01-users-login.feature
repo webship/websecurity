@@ -9,7 +9,7 @@ Feature: Login for every configured user
     Given I am a logged in user with the "Webmaster" user
     Then I should see "webmaster"
      And I should see "Log out"
-    When I add testing users
+    When I add the Web Security testing users
      And I navigate to "/admin/people"
     Then I should see "content_editor_user"
      And I should see "authenticated_user"

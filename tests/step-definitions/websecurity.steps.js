@@ -56,6 +56,47 @@ async function submitLoginForm(world, name, password) {
 }
 
 /**
+ * Provision every non-admin user from cucumber.js worldParameters.users on a
+ * Web Security site.
+ *
+ * The step pack's `I add the testing users` fills the password before it
+ * unticks "Notify user of new account", and it does not satisfy Antibot and
+ * Honeypot. On this site the registration model ticks "Notify user" and hides
+ * the password while it is ticked, and both protections guard the
+ * admin/people/create form, so the accounts are created here in the order the
+ * form needs. The login by handle comes from the pack.
+ *
+ * Example #1: Given I add the Web Security testing users
+ * Example #2: And I add the Web Security testing users
+ */
+Given(/^(?:I |we )?add the Web Security testing users$/, async function () {
+  const users = this.parameters.users || {};
+  for (const [key, info] of Object.entries(users)) {
+    if (info.isAdmin) continue;
+    if (!info.username || !info.email || !info.password) {
+      throw friendly(`User "${key}" is missing username/email/password in worldParameters.users`);
+    }
+    await gotoUrl(this.page, `${this.parameters.launchUrl}/admin/people/create`);
+    await smartSettle(this.page);
+    await fillField(this.page, 'name', info.username);
+    await fillField(this.page, 'mail', info.email);
+    // The registration model ticks "Notify user" and generates a password;
+    // untick it so the account keeps the password from worldParameters.
+    const notify = this.page.locator('input[name="notify"]');
+    if (await notify.count() > 0) await notify.uncheck();
+    await fillField(this.page, 'pass[pass1]', info.password);
+    await fillField(this.page, 'pass[pass2]', info.password);
+    for (const role of info.roles || []) {
+      const cb = this.page.locator(`input[name="roles[${role}]"]`);
+      if (await cb.count() > 0) await cb.check();
+    }
+    await satisfyAntibotAndHoneypot(this.page);
+    await this.page.getByRole('button', { name: 'Create new account' }).click();
+    await smartSettle(this.page);
+  }
+});
+
+/**
  * Log in with the email address of a named test user.
  *
  * The recipe lets users log in with an email address or a username.
