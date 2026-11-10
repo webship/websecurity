@@ -59,6 +59,9 @@
     "webpack-cli": "~5",
     "webship-js": "^2.0.6"
   },
+  "resolutions": {
+    "@cucumber/cucumber": "10.0.1"
+  },
   "browserslist": [
     "last 2 Chrome major versions",
     "last 2 Firefox major versions",
