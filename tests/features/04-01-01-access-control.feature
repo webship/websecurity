@@ -46,10 +46,8 @@ Feature: Access control for security admin pages
 
   Scenario: Authenticated user cannot access the Security Kit config
     Given I am a logged in user with the "Authenticated user" user
-    When I navigate to "/admin/config/system/seckit"
-    Then I should see "Access denied"
+    Then I should be denied access to "/admin/config/system/seckit"
 
   Scenario: Authenticated user cannot access the Security Review settings
     Given I am a logged in user with the "Authenticated user" user
-    When I navigate to "/admin/config/security-review"
-    Then I should see "Access denied"
+    Then I should be denied access to "/admin/config/security-review"
